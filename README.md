@@ -1,3 +1,6 @@
+[![uikit banner](https://cloud.githubusercontent.com/assets/1716665/15009072/aa063686-11e4-11e6-8b84-272b143e293d.jpg)](http://getuikit.com/)
+
+
 # UIkit
 
 UIkit is a lightweight and modular front-end framework for developing fast and powerful web interfaces.
@@ -80,6 +83,8 @@ UIkit is maintained by using the [Semantic Versioning Specification (SemVer)](ht
 ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png)
 --- | --- | --- | --- | --- |
 Latest ✔ | Latest ✔ | 9+ ✔ | 7.1+ ✔ | Latest ✔ |
+
+Tested with [BrowserStack](https://www.browserstack.com) (thanks for sponsoring!).
 
 ## Copyright and License
 

@@ -38,7 +38,7 @@
 
                         var ele = UI.$(this);
 
-                        if(!ele.data("accordion")) {
+                        if (!ele.data("accordion")) {
                             UI.accordion(ele, UI.Utils.options(ele.attr('data-uk-accordion')));
                         }
                     });
@@ -51,18 +51,20 @@
 
             var $this = this;
 
-            this.element.on('click.uikit.accordion', this.options.toggle, function(e) {
+            this.element.on('click.uk.accordion', this.options.toggle, function(e) {
 
                 e.preventDefault();
 
                 $this.toggleItem(UI.$(this).data('wrapper'), $this.options.animate, $this.options.collapse);
             });
 
-            this.update();
+            this.update(true);
 
-            if (this.options.showfirst) {
-                this.toggleItem(this.toggle.eq(0).data('wrapper'), false, false);
-            }
+            UI.domObserve(this.element, function(e) {
+                if ($this.element.children($this.options.containers).length) {
+                    $this.update();
+                }
+            });
         },
 
         toggleItem: function(wrapper, animated, collapse) {
@@ -70,12 +72,14 @@
             var $this = this;
 
             wrapper.data('toggle').toggleClass(this.options.clsactive);
+            wrapper.data('content').toggleClass(this.options.clsactive);
 
             var active = wrapper.data('toggle').hasClass(this.options.clsactive);
 
             if (collapse) {
                 this.toggle.not(wrapper.data('toggle')).removeClass(this.options.clsactive);
-                this.content.not(wrapper.data('content')).parent().stop().css('overflow', 'hidden').animate({ height: 0 }, {easing: this.options.easing, duration: animated ? this.options.duration : 0}).attr('aria-expanded', 'false');
+                this.content.not(wrapper.data('content')).removeClass(this.options.clsactive)
+                    .parent().stop().css('overflow', 'hidden').animate({ height: 0 }, {easing: this.options.easing, duration: animated ? this.options.duration : 0}).attr('aria-expanded', 'false');
             }
 
             wrapper.stop().css('overflow', 'hidden');
@@ -110,7 +114,7 @@
             this.element.trigger('toggle.uk.accordion', [active, wrapper.data('toggle'), wrapper.data('content')]);
         },
 
-        update: function() {
+        update: function(init) {
 
             var $this = this, $content, $wrapper, $toggle;
 
@@ -139,6 +143,10 @@
             });
 
             this.element.trigger('update.uk.accordion', [this]);
+
+            if (init && this.options.showfirst) {
+                this.toggleItem(this.toggle.eq(0).data('wrapper'), false, false);
+            }
         }
 
     });

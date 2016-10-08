@@ -7,7 +7,7 @@
     }
 
     if (typeof define == "function" && define.amd) {
-        define("uikit-search", ["uikit"], function(){
+        define("uikit-timepicker", ["uikit"], function(){
             return component || addon(UIkit);
         });
     }
@@ -78,9 +78,9 @@
                 $this.autocomplete.value = Math.random();
                 $this.autocomplete.triggercomplete();
 
-            }).on('blur', function() {
+            }).on('blur', UI.Utils.debounce(function() {
                 $this.checkTime();
-            });
+            }, 100));
 
             this.element.data("timepicker", this);
         },

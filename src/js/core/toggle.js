@@ -42,10 +42,12 @@
 
             this.aria = (this.options.cls.indexOf('uk-hidden') !== -1);
 
-            this.getToggles();
-
             this.on("click", function(e) {
-                if ($this.element.is('a[href="#"]')) e.preventDefault();
+
+                if ($this.element.is('a[href="#"]')) {
+                    e.preventDefault();
+                }
+
                 $this.toggle();
             });
 
@@ -53,6 +55,8 @@
         },
 
         toggle: function() {
+
+            this.getToggles();
 
             if(!this.totoggle.length) return;
 
@@ -69,26 +73,29 @@
 
                 this.totoggle.css('animation-duration', this.options.duration+'ms');
 
-                if (this.totoggle.hasClass(this.options.cls)) {
+                this.totoggle.each(function(){
 
-                    this.totoggle.toggleClass(this.options.cls);
+                    var ele = UI.$(this);
 
-                    this.totoggle.each(function(){
-                        UI.Utils.animate(this, animations[0]).then(function(){
-                            UI.$(this).css('animation-duration', '');
-                            UI.Utils.checkDisplay(this);
+                    if (ele.hasClass($this.options.cls)) {
+
+                        ele.toggleClass($this.options.cls);
+
+                        UI.Utils.animate(ele, animations[0]).then(function(){
+                            ele.css('animation-duration', '');
+                            UI.Utils.checkDisplay(ele);
                         });
-                    });
 
-                } else {
+                    } else {
 
-                    this.totoggle.each(function(){
                         UI.Utils.animate(this, animations[1]+' uk-animation-reverse').then(function(){
-                            UI.$(this).toggleClass($this.options.cls).css('animation-duration', '');
-                            UI.Utils.checkDisplay(this);
-                        }.bind(this));
-                    });
-                }
+                            ele.toggleClass($this.options.cls).css('animation-duration', '');
+                            UI.Utils.checkDisplay(ele);
+                        });
+
+                    }
+
+                });
 
             } else {
                 this.totoggle.toggleClass(this.options.cls);
@@ -106,7 +113,7 @@
 
         updateAria: function() {
             if (this.aria && this.totoggle.length) {
-                this.totoggle.each(function(){
+                this.totoggle.not('[aria-hidden]').each(function(){
                     UI.$(this).attr('aria-hidden', UI.$(this).hasClass('uk-hidden'));
                 });
             }

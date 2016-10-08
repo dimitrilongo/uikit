@@ -249,13 +249,13 @@ gulp.task('dist-bower-file', function(done) {
         "main": [
             "css/uikit.min.css",
             "js/uikit.min.js",
-            "fonts/fontawesome-webfont.eot",
             "fonts/fontawesome-webfont.ttf",
             "fonts/fontawesome-webfont.woff",
+            "fonts/fontawesome-webfont.woff2",
             "fonts/FontAwesome.otf"
         ],
         "dependencies": {
-            "jquery": ">= 1.9.0"
+            "jquery": "~2.1.0"
         },
         "ignore": [
             "node_modules",
@@ -559,6 +559,7 @@ gulp.task('prefix', function(done) {
 
     gulp.src(['./dist/**/*.css', './dist/**/*.less', './dist/**/*.scss', './dist/**/*.js'])
         .pipe(replace(/(uk-([a-z\d\-]+))/g, prefix+'-$2'))
+        .pipe(replace(/data-uk-/g, 'data-'+prefix+'-'))
         .pipe(gulp.dest('./dist'))
         .on('end', done);
 });

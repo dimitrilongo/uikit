@@ -19,7 +19,7 @@
     var Animations = UI.slideshow.animations;
 
     UI.$.extend(UI.slideshow.animations, {
-        'slice': function(current, next, dir, fromfx) {
+        slice: function(current, next, dir, fromfx) {
 
             if (!current.data('cover')) {
                 return Animations.fade.apply(this, arguments);
@@ -79,7 +79,9 @@
             this.container.append(ghost);
 
             ghost.children().last().on(UI.support.transition.end, function() {
-                ghost.remove();
+
+                setTimeout(ghost.remove.bind(ghost), 0);
+
                 d.resolve();
             });
 
@@ -109,7 +111,7 @@
             return Animations.slice.apply(this, [current, next, dir, 'slice-up-down']);
         },
 
-        'fold': function(current, next, dir) {
+        fold: function(current, next, dir) {
 
             if (!next.data('cover')) {
                 return Animations.fade.apply(this, arguments);
@@ -130,8 +132,6 @@
                 bar;
 
             for (var i = 0; i < this.options.slices; i++) {
-
-                var width = (i == this.options.slices-1) ? (ghostWidth - (sliceWidth*i)) : sliceWidth;
 
                 bar = UI.$('<div class="uk-cover-background"></div>').css({
                     'position'           : 'absolute',
@@ -156,7 +156,9 @@
             ghost.width();
 
             ghost.children().first().on(UI.support.transition.end, function() {
-                ghost.remove();
+
+                setTimeout(ghost.remove.bind(ghost), 0);
+
                 d.resolve();
             }).end().css({
                 'transform': 'scaleX(1)',
@@ -166,7 +168,7 @@
             return d.promise();
         },
 
-        'puzzle': function(current, next, dir) {
+        puzzle: function(current, next, dir) {
 
             if (!next.data('cover')) {
                 return Animations.fade.apply(this, arguments);
@@ -229,7 +231,9 @@
                     '-webkit-transition': 'all '+$this.options.duration+'ms ease-in-out '+(50+i*25)+'ms'
                 });
             }).last().on(UI.support.transition.end, function() {
-                ghost.remove();
+
+                setTimeout(ghost.remove.bind(ghost), 0);
+
                 d.resolve();
             });
 
@@ -240,7 +244,7 @@
             return d.promise();
         },
 
-        'boxes': function(current, next, dir, fromfx) {
+        boxes: function(current, next, dir, fromfx) {
 
             if (!next.data('cover')) {
                 return Animations.fade.apply(this, arguments);
@@ -333,7 +337,9 @@
             }
 
             boxes.last().on(UI.support.transition.end, function() {
-                ghost.remove();
+
+                setTimeout(ghost.remove.bind(ghost), 0);
+
                 d.resolve();
             });
 
@@ -360,7 +366,7 @@
             if (!animations[this.fxIndex]) this.fxIndex = 0;
 
             return Animations[animations[this.fxIndex]].apply(this, arguments);
-        },
+        }
     });
 
 

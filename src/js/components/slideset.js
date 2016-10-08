@@ -44,7 +44,7 @@
                     var ele = UI.$(this);
 
                     if(!ele.data("slideset")) {
-                        var plugin = UI.slideset(ele, UI.Utils.options(ele.attr("data-uk-slideset")));
+                        UI.slideset(ele, UI.Utils.options(ele.attr("data-uk-slideset")));
                     }
                 });
             });
@@ -60,7 +60,7 @@
             this.controls  = this.options.controls ? UI.$(this.options.controls) : this.element;
 
             UI.$win.on("resize load", UI.Utils.debounce(function() {
-                $this.updateSets();
+                $this.update();
             }, 100));
 
             $this.list.addClass('uk-grid-width-1-'+$this.options.default);
@@ -74,7 +74,7 @@
                 $this.list.addClass('uk-grid-width-'+bp+'-1-'+$this.options[bp]);
             });
 
-            this.on("click.uikit.slideset", '[data-uk-slideset-item]', function(e) {
+            this.on("click.uk.slideset", '[data-uk-slideset-item]', function(e) {
 
                 e.preventDefault();
 
@@ -97,7 +97,7 @@
 
             });
 
-            this.controls.on('click.uikit.slideset', '[data-uk-filter]', function(e) {
+            this.controls.on('click.uk.slideset', '[data-uk-filter]', function(e) {
 
                 var ele = UI.$(this);
 
@@ -115,7 +115,7 @@
 
                 $this._hide().then(function(){
 
-                    $this.updateSets(true, true);
+                    $this.update(true, true);
                 });
             });
 
@@ -124,7 +124,7 @@
             });
 
             this.updateFilter(this.options.filter);
-            this.updateSets();
+            this.update();
 
             this.element.on({
                 mouseenter: function() { if ($this.options.pauseOnHover) $this.hovering = true;  },
@@ -135,11 +135,17 @@
             if (this.options.autoplay) {
                 this.start();
             }
+
+            UI.domObserve(this.list, function(e) {
+                if ($this.list.children(':visible:not(.uk-active)').length) {
+                    $this.update(false,true);
+                }
+            });
         },
 
-        updateSets: function(animate, force) {
+        update: function(animate, force) {
 
-            var $this = this, visible = this.visible, i;
+            var visible = this.visible, i;
 
             this.visible  = this.getVisibleOnCurrenBreakpoint();
 
@@ -295,8 +301,7 @@
 
         _getAnimation: function() {
 
-            var $this     = this,
-                animation = Animations[this.options.animation] || Animations.none;
+            var animation = Animations[this.options.animation] || Animations.none;
 
             if (!UI.support.animation) {
                 animation = Animations.none;
@@ -396,7 +401,7 @@
 
     function coreAnimation(cls, current, next, dir) {
 
-        var d = UI.$.Deferred(),
+        var d     = UI.$.Deferred(),
             delay = (this.options.delay === false) ? Math.floor(this.options.duration/2) : this.options.delay,
             $this = this, clsIn, clsOut, release, i;
 
@@ -417,6 +422,8 @@
             clsOut = clsIn;
         }
 
+        UI.$body.css('overflow-x', 'hidden'); // prevent horizontal scrollbar on animation
+
         release = function() {
 
             if (current && current.length) {
@@ -432,13 +439,22 @@
                 next.eq(dir == 1 ? i:(next.length - i)-1).css('animation-delay', (i*delay)+'ms');
             }
 
-            next.addClass(clsIn)[dir==1 ? 'last':'first']().one(UI.support.animation.end, function() {
-
+            var finish = function() {
                 next.removeClass(''+clsIn+'').css({opacity:'', display:'', 'animation-delay':'', 'animation':''});
                 d.resolve();
+                UI.$body.css('overflow-x', '');
                 $this.element.css('min-height', '');
+                finish = false;
+            };
 
+            next.addClass(clsIn)[dir==1 ? 'last':'first']().one(UI.support.animation.end, function(){
+                if(finish) finish();
             }).end().css('display', '');
+
+            // make sure everything resolves really
+            setTimeout(function() {
+                if(finish) finish();
+            },  next.length * delay * 2);
         };
 
         if (next.length) {
@@ -456,7 +472,11 @@
                 (function (index, ele){
 
                     setTimeout(function(){
-                        ele.css('display', 'none').css('display', '').css('opacity', 0).addClass(clsOut+' uk-animation-reverse');
+
+                        ele.css('display', 'none').css('display', '').css('opacity', 0).on(UI.support.animation.end, function(){
+                            ele.removeClass(clsOut);
+                        }).addClass(clsOut+' uk-animation-reverse');
+
                     }.bind(this), i * delay);
 
                 })(i, current.eq(dir == 1 ? i:(current.length - i)-1));

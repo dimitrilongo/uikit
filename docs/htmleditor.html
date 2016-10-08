@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="../vendor/codemirror/codemirror.css">
         <link rel="stylesheet" href="../vendor/codemirror/show-hint.css">
         <script src="../vendor/codemirror/codemirror.js"></script>
-        <script src="../vendor/marked.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
         <script src="../src/js/components/htmleditor.js"></script>
     </head>
 
@@ -34,6 +34,8 @@
                     <li class="uk-active"><a href="components.html">Components</a></li>
                     <li><a href="customizer.html">Customizer</a></li>
                     <li><a href="../showcase/index.html">Showcase</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="uikit3.html">UIkit 3</a></li>
                 </ul>
 
                 <a href="#tm-offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
@@ -52,6 +54,7 @@
                         <ul class="tm-nav uk-nav" data-uk-nav>
                             <li class="uk-nav-header">Layout</li>
                             <li><a href="grid-js.html">Dynamic Grid</a></li>
+                            <li><a href="grid-parallax.html">Parallax Grid</a></li>
                             <li class="uk-nav-header">Navigations</li>
                             <li><a href="dotnav.html">Dotnav</a></li>
                             <li><a href="slidenav.html">Slidenav</a></li>
@@ -228,6 +231,18 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                                             <td>View mode</td>
                                         </tr>
                                         <tr>
+                                            <td><code>enablescripts</code></td>
+                                            <td>boolean</td>
+                                            <td>false</td>
+                                            <td>Run inline scripts and style within the preview</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>iframe</code></td>
+                                            <td>boolean or string</td>
+                                            <td>true</td>
+                                            <td>Show preview in iframe. You can pass an url to a stylesheet to be included in the iframe</td>
+                                        </tr>
+                                        <tr>
                                             <td><code>toolbar</code></td>
                                             <td>Array</td>
                                             <td>[ "bold", "italic", "strike", "link", "picture", ... ]</td>
@@ -354,6 +369,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                             <li><a href="thumbnail.html">Thumbnail</a></li>
                             <li><a href="overlay.html">Overlay</a></li>
                             <li><a href="text.html">Text</a></li>
+                            <li><a href="column.html">Column</a></li>
                             <li><a href="animation.html">Animation</a></li>
                             <li><a href="contrast.html">Contrast</a></li>
                         </ul>
@@ -373,6 +389,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                     <li class="uk-parent"><a href="#"><i class="uk-icon-th-large"></i> Layout</a>
                         <ul class="uk-nav-sub">
                             <li><a href="grid-js.html">Dynamic Grid</a></li>
+                            <li><a href="grid-parallax.html">Parallax Grid</a></li>
                         </ul>
                     </li>
                     <li class="uk-parent"><a href="#"><i class="uk-icon-bars"></i> Navigations</a>
@@ -415,6 +432,8 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                     </li>
                     <li class="uk-nav-divider"></li>
                     <li><a href="../showcase/index.html">Showcase</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="uikit3.html">UIkit 3</a></li>
                 </ul>
 
             </div>

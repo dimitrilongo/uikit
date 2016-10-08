@@ -3,9 +3,11 @@
 //
 // Component:       `uk-block`
 //
-// Modifiers:       `uk-list-line`
-//                  `uk-list-striped`
-//                  `uk-list-space`
+// Modifiers:       `uk-block-large`
+//                  `uk-block-default`
+//                  `uk-block-muted`
+//                  `uk-block-primary`
+//                  `uk-block-secondary`
 //
 // ========================================================================
 
@@ -32,7 +34,6 @@
 
 .uk-block {
     position: relative;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     padding-top: @block-padding-vertical;
     padding-bottom: @block-padding-vertical;
@@ -139,15 +140,6 @@
     background: @block-secondary-background;
     .hook-block-secondary;
 }
-
-/*
- * Adjust padding between equal colored blocks
- */
-
-.uk-block-default + .uk-block-default,
-.uk-block-muted + .uk-block-muted,
-.uk-block-primary + .uk-block-primary,
-.uk-block-secondary + .uk-block-secondary { padding-top: 0; }
 
 
 // Hooks
