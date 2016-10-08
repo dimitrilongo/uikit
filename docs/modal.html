@@ -29,6 +29,8 @@
                     <li><a href="components.html">Components</a></li>
                     <li><a href="customizer.html">Customizer</a></li>
                     <li><a href="../showcase/index.html">Showcase</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="uikit3.html">UIkit 3</a></li>
                 </ul>
 
                 <a href="#tm-offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
@@ -84,6 +86,7 @@
                             <li><a href="thumbnail.html">Thumbnail</a></li>
                             <li><a href="overlay.html">Overlay</a></li>
                             <li><a href="text.html">Text</a></li>
+                            <li><a href="column.html">Column</a></li>
                             <li><a href="animation.html">Animation</a></li>
                             <li><a href="contrast.html">Contrast</a></li>
 
@@ -170,6 +173,8 @@
                             <h3>JavaScript options</h3>
 
                             <p>By default, the modal closes automatically when clicking on the modal overlay. To prevent this from happening, just add the <code>data-uk-modal="{target:'#ID',bgclose:false}"</code> attribute.</p>
+                            
+                            <p>You can trigger a new modal inside the current modal. The default behaviour closes the first modal when a second one opens. You can prevent this from happening by adding the <code>data-uk-modal="{target:'#ID',modal:false}"</code> attribute.</p>
 
                             <hr class="uk-article-divider">
 
@@ -260,6 +265,39 @@
 &lt;/div&gt;</code></pre>
 
                         <p><span class="uk-badge">NOTE</span> When creating a close button within the lightbox modifier, we also recommend adding the <code>.uk-close-alt</code> class from the <a href="close.html">Close component</a> to the close button to give your button a styling that fits the lightbox modal.</p>
+
+                        <hr class="uk-article-divider">
+
+
+                        <h2><a href="#modal-blank" class="uk-link-reset">Modal blank</a></h2>
+
+                        <p>To reset all styling, like padding and margin, add the <code>.uk-modal-dialog-blank</code> class. This can be useful, if you want to create a fullscreen modal. In that case you also need to add the <code>.uk-height-viewport</code> class from the <a href="utility.html">Utility component</a> so that the modal extends to full viewport height.</p>
+
+                        <h3 class="tm-article-subtitle">Example</h3>
+
+                        <a class="uk-button" href="#modal-blank" data-uk-modal>Open</a>
+                        <div id="modal-blank" class="uk-modal">
+                            <div class="uk-modal-dialog uk-modal-dialog-blank">
+                                <button class="uk-modal-close uk-close" type="button"></button>
+                                <div class="uk-grid uk-flex-middle" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-2 uk-height-viewport uk-cover-background" style="background-image: url('images/placeholder_120x255.svg');"></div>
+                                    <div class="uk-width-medium-1-2">
+                                    <h1>Headline</h1>
+                                        <div class="uk-width-medium-1-3">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+<pre><code>&lt;!-- This is the anchor toggling the modal --&gt;
+&lt;a href="#my-id" data-uk-modal&gt;...&lt;/a&gt;
+
+&lt;!-- This is the modal --&gt;
+&lt;div id="my-id" class="uk-modal"&gt;
+    &lt;div class="uk-modal-dialog uk-modal-dialog-blank"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
 
                         <hr class="uk-article-divider">
 
@@ -383,7 +421,7 @@
 
 <pre><code>UIkit.modal.confirm("Are you sure?", function(){
     // will be executed on confirm.
-});</code></pre>
+}[, oncanel, options]);</code></pre>
 
                         <button type="button" class="uk-button" onclick="UIkit.modal.prompt('Name:', '', function(val){ UIkit.modal.alert('Hello '+(val || 'Mr noname')+'!'); });">Prompt</button>
 
@@ -430,8 +468,6 @@ if ( modal.isActive() ) {
     }
 });</code></pre>
 
-                            <h3>Events</h3>
-
                             <div class="uk-overflow-container">
                                 <table class="uk-table uk-table-striped uk-text-nowrap">
                                     <thead>
@@ -456,6 +492,52 @@ if ( modal.isActive() ) {
                                 </table>
                             </div>
 
+                            <h3>JavaScript options</h3>
+
+                            <div class="uk-overflow-container">
+                                <table class="uk-table uk-table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Option</th>
+                                        <th>Possible value</th>
+                                        <th>Default</th>
+                                        <th>Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><code>keyboard</code></td>
+                                        <td>boolean</td>
+                                        <td>true</td>
+                                        <td>Allows controls from keyboard (ESC to close)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>bgclose</code></td>
+                                        <td>boolean</td>
+                                        <td>true</td>
+                                        <td>Allow modal to close automatically when clicking on the modal overlay</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>minScrollHeight</code></td>
+                                        <td>integer</td>
+                                        <td>150</td>
+                                        <td>Set the height for overflow container to start scrolling</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>center</code></td>
+                                        <td>boolean</td>
+                                        <td>false</td>
+                                        <td>Vertically center the modal</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>modal</code></td>
+                                        <td>boolean</td>
+                                        <td>true</td>
+                                        <td>Close currently opened modals on opening modal</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </article>
                     </div>
                 </div>
@@ -550,6 +632,7 @@ if ( modal.isActive() ) {
                             <li><a href="thumbnail.html">Thumbnail</a></li>
                             <li><a href="overlay.html">Overlay</a></li>
                             <li><a href="text.html">Text</a></li>
+                            <li><a href="column.html">Column</a></li>
                             <li><a href="animation.html">Animation</a></li>
                             <li><a href="contrast.html">Contrast</a></li>
                         </ul>
@@ -569,6 +652,7 @@ if ( modal.isActive() ) {
                     <li class="uk-parent"><a href="#"><i class="uk-icon-th-large"></i> Layout</a>
                         <ul class="uk-nav-sub">
                             <li><a href="grid-js.html">Dynamic Grid</a></li>
+                            <li><a href="grid-parallax.html">Parallax Grid</a></li>
                         </ul>
                     </li>
                     <li class="uk-parent"><a href="#"><i class="uk-icon-bars"></i> Navigations</a>
@@ -611,6 +695,8 @@ if ( modal.isActive() ) {
                     </li>
                     <li class="uk-nav-divider"></li>
                     <li><a href="../showcase/index.html">Showcase</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="uikit3.html">UIkit 3</a></li>
                 </ul>
 
             </div>

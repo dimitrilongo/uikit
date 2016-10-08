@@ -2,14 +2,191 @@
 
 ### WIP
 
+  - Fixed slideshow bug when using slideshow-fx based effects
+  - Fixed dropdown error if now offset element exists
+  - Fixed dropdowns on windows with touch support
+  - Fixed variable reference in nav component when the dom changed.
+  - Updated datepicker default value when minDate setting is set
+  - Updated tooltip word-break behavior 
+
+### 2.27.1 (Aug 30, 2016)
+
+  - Fixed missing variable in nav.js
+
+### 2.27.0 (Aug 29, 2016)
+
+  - Added new animation modes to offcanvas component
+  - Added text-transform classes to utility component
+  - Added headers option to upload component
+  - Added UIkit.Utils.getCssVar utility function
+  - Updated modal and dropdown components to get focus when shown
+  - Updated dragging behavior on infinite sliders
+  - Updated slideshow, slider, slideset and accordion component to update if a new item was added via dom manipulation
+  - Updated icon component to FontAwesome 4.6.3
+  - Fixed slideset showing horizontal scrollbar on animation
+  - Fixed sticky element disappearing on scroll in iOS browsers
+  - Fixed maxDate in datepicker component
+  - Fixed dynamic grid in rtl mode
+
+### 2.26.4 (Jul 13, 2016)
+
+  - Added Htmleditor enablescripts option
+  - Removed marked lib / load from a CDN
+  - Fixed slider in rtl mode
+  - Fixed jQuery v.3 switcher + slideshow animation compatibility
+  - Fixed Htmleditor fullscreen mode in fixed container
+  - Fixed prefixer gulp task
+  - Fixed stick wrapper margin in IE
+  - Fixed for Dynamic Grid ```_getSize``` is not a function
+  - Fixed where many requestanimationframes can exist (custom scroll observer)
+  - Fixed dragging items over iframes (sortable/nestable component)
+  - Fixed sortable for Chrome/Windows mobile
+
+### 2.26.3 (May 12, 2016)
+
+  - Added UIkit.Utils.throttle helper function
+  - Updated icon component to FontAwesome 4.6.0
+  - Updated list button action in html mode (html editor)
+  - Removed default ```transition-property: all``` for all uk-form inputs
+  - Fixed fullscreen videos on iOS + lightbox
+  - Fixed links in sortables + nestables on iOS/Windows mobile
+
+### 2.26.2 (April 06, 2016)
+  - Added iframe support for lightbox component
+  - Added observe option to data-uk-grid-margin + data-uk-grid-match
+  - Added all data-uk-* js components should now auto initialize after inserted into DOM
+  - Updated sortable behavior with handleClass option
+  - Updated sortable + nestable serialize
+  - Removed data-uk-observe
+  - Fixed flip dropdown modifier for autocomplete component
+  - Fixed scrollspynav active state (revert)
+  - Fixed form-select component with input as target
+
+### 2.26.1 (March 30, 2016)
+  - Removed translateZ(0) in sticky component to avoid stacking context
+  - Removed clearfix fix in flex component
+
+### 2.26.0 (March 29, 2016)
+  - Added uk-grid-large class
+  - Added support for CSS filter properties in parallax component
+  - Added responsiveness to audio, canvas, svg and video in base component
+  - Made flex component more robust when used with clearfix
+  - Improved htmleditor `replaceInPreview` function
+  - Fixed scrollspynav active state
+  - Fixed uk-modal-spinner animation
+  - Fixed uk-row-first when using pull/push or flex-order classes
+  - Fixed uk-grid-margin when using flex-order classes
+  - Fixed uk-overflow-container adjustments on resize
+  - Fixed modal listens for `changed.uk.dom` event
+
+### 2.25.0 (February 17, 2016)
+  - Added grid parallax component
+  - Added new grid-width classes to grid component
+  - Added better vertical-align for embedded content to base component
+  - Added :before and :after to print component
+  - Fixed Animated slideset filter
+  - Fixed noDragClass option (sortable)
+  - Fixed drop target detection (sortable)
+  - Fixed parallax for images with smaller width
+  - Fixed parallax for elements with padding
+  - Fixed responsiveElement initialization
+  - Fixed scrollspy in view check
+  - Fixed sticky positioning
+  - Fixed dropdown flip positions
+  - Fixed margin on wrapper element (sticky)
+
+### 2.24.3 (December 18, 2015)
+
+  - Added support for using data-title attribute as lightbox caption
+  - Added mark first item in a row with ```uk-row-first``` when data-uk-grid-margin
+  - Added uk-slide-before uk-slide-after classes to slider element after item focus
+  - Added oncancel callback to UIkit.modal.confirm
+  - Updated allow params in data-uk-* attributes without curly braces
+  - Fixed .uk-display-inline-block with responsive child images (firefox)
+  - Fixed hash urls in Offcanvas
+  - Fixed slideshow scroll, swipe direction
+
+### 2.24.2 (December 01, 2015)
+
+  - Fixed UIkit.Utils.stackMargin apply on container with only one child element
+  - Fixed hiding dropdown on click with option `mode:'hover'` for dropdown or items with class `uk-dropdown-close`
+
+### 2.24.1 (November 30, 2015)
+
+  - Added uk-width-xlarge-* classes
+  - Updated slideshow direction animation (swipe, scroll)
+  - Updated scrollspynav to blur items first before activating
+  - Updated uk-overflow-container behaviour in modals
+  - Fixed sortable if browser is in strict mode
+  - Fixed sticked element width after resize
+  - Fixed parallax bg scrolling
+
+### 2.24.0 (November 23, 2015)
+
+  - Added active class to accordion content container
+  - Added panel body class to panel component
+  - Added modal blank class to modal component
+  - Added beforeshow.uk.slideshow event
+  - Added preventflip option to dropdown component
+  - Added uk-slideshow-fade-in class
+  - Added uk-contrast support for tabs component
+  - Added new hooks to base component
+  - Added base-noconflict
+  - Updated icon component to FontAwesome 4.5.0
+  - Updated parallax background-image behaviour
+  - Updated sticky behaviour on resize
+  - Updated default format setting to YYYY-MM-DD (datepicker)
+  - Updated scrollspynav to ignore links only with '#' as href
+  - Updated sortable js improved to allow nested groups
+  - Fixed error in grid filter if type is number
+  - Fixed uk-form-icon vertical alignment
+  - Fixed hover effects on touch devices
+  - Fixed slideset animation on mobile
+
+
+### 2.23.0 (October 12, 2015)
+
+  - DEPRECATED: uk-dropdown-up, uk-dropdown-flip, uk-dropdown-center (Use ```pos``` property instead)
+  - Reworked dropdown component to allow any kind of popovers
+  - Added column component
+  - Added data-uk-svg helper (UIkit.Utils.inlineSvg)
+  - Added ```pos``` option to dropdown component
+  - Added .npmignore
+  - Updated image background-size calculation in parallax component
+  - Updated using requestAnimationFrame for document.scrolling event
+  - Updated default pagination component values
+  - Fixed overlay transition-properties
+  - Fixed scroll jumping for animated switchers on iOS
+  - Fixed pass swiping option to switcher component
+  - Fixed slider not showing the last element
+  - Fixed ensure open transition has happened before listening to closing transition (modal component)
+  - Fixed initdate when mindate integer (datepicker component)
+  - Fixed error in sticky.js in combination with dynamic grid
+  - Fixed touch.js error
+
+  **Docs and Repo**
+
+  - Added docs and tests for column component
+  - Added docs and tests for dropdown component
+
+### 2.22.0 (August 24, 2015)
+
+  - Added dropdown overlay mode
   - Added autoplay to slider component
   - Added animation duration variables to sticky
   - Added showup + clsinactive option to sticky component
+  - Added swiping option to switcher component
+  - Updated icon component to FontAwesome 4.4.0
   - Updated placeholder default variables for all themes
+  - Updated position utility classes
   - Updated sortable and nestable empty selectors
+  - Updated panel teaser selector
+  - Updated top parameter to support vh values + elements in sticky component
+  - Updated adjust document scrolling while dragging in sortable component
+  - Updated Youtube lighbox plugin to load maxres image
   - Moved block padding adjustment into themes
   - Unified sortable and nestable change event parameters
-  - Updated top parameter to support vh values + elements (sticky component)
+  - Set Http-Accept-Header if JSON is requested (upload)
   - Fixed element swapping between grouped lists
   - Fixed grid match items to wrap onto multiple lines
   - Fixed dropdown hide behavior
@@ -19,6 +196,13 @@
   - Fixed timpicker flickering on blur after time picking
   - Fixed pagination "currentPage" option
   - Fixed initial focus on confirm dialog
+  - Fixed missing debounced redraw in htmleditor
+  - Fixed body width calculation on active offcanvas
+
+  **Docs and Repo**
+
+  - Added new video tutorial section
+  - Updated some tests and docs
 
 ### 2.21.0 (June 01, 2015)
 

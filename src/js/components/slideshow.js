@@ -6,8 +6,8 @@
         component = addon(UIkit);
     }
 
-    if (typeof define == "function" && define.amd) {
-        define("uikit-slideshow", ["uikit"], function() {
+    if (typeof define == 'function' && define.amd) {
+        define('uikit-slideshow', ['uikit'], function() {
             return component || addon(UIkit);
         });
     }
@@ -21,9 +21,9 @@
     UI.component('slideshow', {
 
         defaults: {
-            animation          : "fade",
+            animation          : 'fade',
             duration           : 500,
-            height             : "auto",
+            height             : 'auto',
             start              : 0,
             autoplay           : false,
             autoplayInterval   : 7000,
@@ -55,8 +55,8 @@
 
                     var slideshow = UI.$(this);
 
-                    if (!slideshow.data("slideshow")) {
-                        UI.slideshow(slideshow, UI.Utils.options(slideshow.attr("data-uk-slideshow")));
+                    if (!slideshow.data('slideshow')) {
+                        UI.slideshow(slideshow, UI.Utils.options(slideshow.attr('data-uk-slideshow')));
                     }
                 });
             });
@@ -64,22 +64,20 @@
 
         init: function() {
 
-            var $this = this, canvas, kbanimduration;
+            var $this = this;
 
-            this.container     = this.element.hasClass('uk-slideshow') ? this.element : UI.$(this.find('.uk-slideshow'));
-            this.slides        = this.container.children();
-            this.slidesCount   = this.slides.length;
+            this.container     = this.element.hasClass('uk-slideshow') ? this.element : UI.$(this.find('.uk-slideshow:first'));
             this.current       = this.options.start;
             this.animating     = false;
-            this.triggers      = this.find('[data-uk-slideshow-item]');
+
             this.fixFullscreen = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) && this.container.hasClass('uk-slideshow-fullscreen'); // viewport unit fix for height:100vh - should be fixed in iOS 8
 
             if (this.options.kenburns) {
 
-                kbanimduration = this.options.kenburns === true ? '15s': this.options.kenburns;
+                this.kbanimduration = this.options.kenburns === true ? '15s': this.options.kenburns;
 
-                if (!String(kbanimduration).match(/(ms|s)$/)) {
-                    kbanimduration += 'ms';
+                if (!String(this.kbanimduration).match(/(ms|s)$/)) {
+                    this.kbanimduration += 'ms';
                 }
 
                 if (typeof(this.options.kenburnsanimations) == 'string') {
@@ -87,10 +85,103 @@
                 }
             }
 
+            this.update();
+
+            this.on('click.uk.slideshow', '[data-uk-slideshow-item]', function(e) {
+
+                e.preventDefault();
+
+                var slide = UI.$(this).attr('data-uk-slideshow-item');
+
+                if ($this.current == slide) return;
+
+                switch(slide) {
+                    case 'next':
+                    case 'previous':
+                        $this[slide=='next' ? 'next':'previous']();
+                        break;
+                    default:
+                        $this.show(parseInt(slide, 10));
+                }
+
+                $this.stop();
+            });
+
+            UI.$win.on("resize load", UI.Utils.debounce(function() {
+                $this.resize();
+
+                if ($this.fixFullscreen) {
+                    $this.container.css('height', window.innerHeight);
+                    $this.slides.css('height', window.innerHeight);
+                }
+            }, 100));
+
+            // chrome image load fix
+            setTimeout(function(){
+                $this.resize();
+            }, 80);
+
+            // Set autoplay
+            if (this.options.autoplay) {
+                this.start();
+            }
+
+            if (this.options.videoautoplay && this.slides.eq(this.current).data('media')) {
+                this.playmedia(this.slides.eq(this.current).data('media'));
+            }
+
+            if (this.options.kenburns) {
+                this.applyKenBurns(this.slides.eq(this.current));
+            }
+
+            this.container.on({
+                mouseenter: function() { if ($this.options.pauseOnHover) $this.hovering = true;  },
+                mouseleave: function() { $this.hovering = false; }
+            });
+
+            this.on('swipeRight swipeLeft', function(e) {
+                $this[e.type=='swipeLeft' ? 'next' : 'previous']();
+            });
+
+            this.on('display.uk.check', function(){
+                if ($this.element.is(':visible')) {
+
+                    $this.resize();
+
+                    if ($this.fixFullscreen) {
+                        $this.container.css('height', window.innerHeight);
+                        $this.slides.css('height', window.innerHeight);
+                    }
+                }
+            });
+
+            UI.domObserve(this.element, function(e) {
+                if ($this.container.children(':not([data-slideshow-slide])').not('.uk-slideshow-ghost').length) {
+                    $this.update(true);
+                }
+            });
+        },
+
+        update: function(resize) {
+
+            var $this = this, canvas, processed = 0;
+
+            this.slides        = this.container.children();
+            this.slidesCount   = this.slides.length;
+
+            if (!this.slides.eq(this.current).length) {
+                this.current = 0;
+            }
+
             this.slides.each(function(index) {
 
-                var slide = UI.$(this),
-                    media = slide.children('img,video,iframe').eq(0);
+                var slide = UI.$(this);
+
+                if (slide.data('processed')) {
+                    return;
+                }
+
+                var media = slide.children('img,video,iframe').eq(0), type = 'html';
 
                 slide.data('media', media);
                 slide.data('sizer', media);
@@ -99,12 +190,21 @@
 
                     var placeholder;
 
+                    type = media[0].nodeName.toLowerCase();
+
                     switch(media[0].nodeName) {
                         case 'IMG':
 
                             var cover = UI.$('<div class="uk-cover-background uk-position-cover"></div>').css({'background-image':'url('+ media.attr('src') + ')'});
 
-                            media.css({'width': '100%','height': 'auto'});
+                            if (media.attr('width') && media.attr('height')) {
+                                placeholder = UI.$('<canvas></canvas>').attr({width:media.attr('width'), height:media.attr('height')});
+                                media.replaceWith(placeholder);
+                                media = placeholder;
+                                placeholder = undefined;
+                            }
+
+                            media.css({width: '100%',height: 'auto', opacity:0});
                             slide.prepend(cover).data('cover', cover);
                             break;
 
@@ -172,85 +272,28 @@
                 if ($this.hasKenBurns(slide)) {
 
                     slide.data('cover').css({
-                        '-webkit-animation-duration': kbanimduration,
-                        'animation-duration': kbanimduration
+                        '-webkit-animation-duration': $this.kbanimduration,
+                        'animation-duration': $this.kbanimduration
                     });
                 }
+
+                slide.data('processed', ++processed);
+                slide.attr('data-slideshow-slide', type);
             });
 
-            this.on("click.uikit.slideshow", '[data-uk-slideshow-item]', function(e) {
+            if (processed) {
 
-                e.preventDefault();
+                this.triggers = this.find('[data-uk-slideshow-item]');
 
-                var slide = UI.$(this).attr('data-uk-slideshow-item');
-
-                if ($this.current == slide) return;
-
-                switch(slide) {
-                    case 'next':
-                    case 'previous':
-                        $this[slide=='next' ? 'next':'previous']();
-                        break;
-                    default:
-                        $this.show(parseInt(slide, 10));
-                }
-
-                $this.stop();
-            });
-
-            // Set start slide
-            this.slides.attr('aria-hidden', 'true').eq(this.current).addClass('uk-active').attr('aria-hidden', 'false');
-            this.triggers.filter('[data-uk-slideshow-item="'+this.current+'"]').addClass('uk-active');
-
-            UI.$win.on("resize load", UI.Utils.debounce(function() {
-                $this.resize();
-
-                if ($this.fixFullscreen) {
-                    $this.container.css('height', window.innerHeight);
-                    $this.slides.css('height', window.innerHeight);
-                }
-            }, 100));
-
-            // chrome image load fix
-            setTimeout(function(){
-                $this.resize();
-            }, 80);
-
-            // Set autoplay
-            if (this.options.autoplay) {
-                this.start();
+                // Set start slide
+                this.slides.attr('aria-hidden', 'true').removeClass('uk-active').eq(this.current).addClass('uk-active').attr('aria-hidden', 'false');
+                this.triggers.filter('[data-uk-slideshow-item="'+this.current+'"]').addClass('uk-active');
             }
 
-            if (this.options.videoautoplay && this.slides.eq(this.current).data('media')) {
-                this.playmedia(this.slides.eq(this.current).data('media'));
+            if (resize && processed) {
+                this.resize();
             }
-
-            if (this.options.kenburns) {
-                this.applyKenBurns(this.slides.eq(this.current));
-            }
-
-            this.container.on({
-                mouseenter: function() { if ($this.options.pauseOnHover) $this.hovering = true;  },
-                mouseleave: function() { $this.hovering = false; }
-            });
-
-            this.on('swipeRight swipeLeft', function(e) {
-                $this[e.type=='swipeLeft' ? 'next' : 'previous']();
-            });
-
-            this.on('display.uk.check', function(){
-                if ($this.element.is(":visible")) {
-
-                    $this.resize();
-
-                    if ($this.fixFullscreen) {
-                        $this.container.css('height', window.innerHeight);
-                        $this.slides.css('height', window.innerHeight);
-                    }
-                }
-            });
         },
-
 
         resize: function() {
 
@@ -280,7 +323,7 @@
             var $this        = this,
                 current      = this.slides.eq(this.current),
                 next         = this.slides.eq(index),
-                dir          = direction ? direction : this.current < index ? -1 : 1,
+                dir          = direction ? direction : this.current < index ? 1 : -1,
                 currentmedia = current.data('media'),
                 animation    = Animations[this.options.animation] ? this.options.animation : 'fade',
                 nextmedia    = next.data('media'),
@@ -296,15 +339,15 @@
                         $this.playmedia(nextmedia);
                     }
 
-                    next.addClass("uk-active").attr('aria-hidden', 'false');
-                    current.removeClass("uk-active").attr('aria-hidden', 'true');
+                    next.addClass('uk-active').attr('aria-hidden', 'false');
+                    current.removeClass('uk-active').attr('aria-hidden', 'true');
 
                     $this.animating = false;
                     $this.current   = index;
 
                     UI.Utils.checkDisplay(next, '[class*="uk-animation-"]:not(.uk-cover-background.uk-position-cover)');
 
-                    $this.trigger('show.uk.slideshow', [next]);
+                    $this.trigger('show.uk.slideshow', [next, current, $this]);
                 };
 
             $this.applyKenBurns(next);
@@ -316,6 +359,8 @@
 
             current = UI.$(current);
             next    = UI.$(next);
+
+            $this.trigger('beforeshow.uk.slideshow', [next, current, $this]);
 
             Animations[animation].apply(this, [current, next, dir]).then(finalize);
 
@@ -344,11 +389,11 @@
         },
 
         next: function() {
-            this.show(this.slides[this.current + 1] ? (this.current + 1) : 0);
+            this.show(this.slides[this.current + 1] ? (this.current + 1) : 0, 1);
         },
 
         previous: function() {
-            this.show(this.slides[this.current - 1] ? (this.current - 1) : (this.slides.length - 1));
+            this.show(this.slides[this.current - 1] ? (this.current - 1) : (this.slides.length - 1), -1);
         },
 
         start: function() {
@@ -434,14 +479,14 @@
 
             next.css('opacity', 1).one(UI.support.animation.end, function() {
 
-                current.removeClass(dir === 1 ? 'uk-slideshow-scroll-backward-out' : 'uk-slideshow-scroll-forward-out');
-                next.css('opacity', '').removeClass(dir === 1 ? 'uk-slideshow-scroll-backward-in' : 'uk-slideshow-scroll-forward-in');
+                current.css('opacity', 0).removeClass(dir == -1 ? 'uk-slideshow-scroll-backward-out' : 'uk-slideshow-scroll-forward-out');
+                next.removeClass(dir == -1 ? 'uk-slideshow-scroll-backward-in' : 'uk-slideshow-scroll-forward-in');
                 d.resolve();
 
             }.bind(this));
 
-            current.addClass(dir == 1 ? 'uk-slideshow-scroll-backward-out' : 'uk-slideshow-scroll-forward-out');
-            next.addClass(dir == 1 ? 'uk-slideshow-scroll-backward-in' : 'uk-slideshow-scroll-forward-in');
+            current.addClass(dir == -1 ? 'uk-slideshow-scroll-backward-out' : 'uk-slideshow-scroll-forward-out');
+            next.addClass(dir == -1 ? 'uk-slideshow-scroll-backward-in' : 'uk-slideshow-scroll-forward-in');
             next.width(); // force redraw
 
             return d.promise();
@@ -456,14 +501,14 @@
 
             next.css('opacity', 1).one(UI.support.animation.end, function() {
 
-                current.removeClass(dir === 1 ? 'uk-slideshow-swipe-backward-out' : 'uk-slideshow-swipe-forward-out');
-                next.css('opacity', '').removeClass(dir === 1 ? 'uk-slideshow-swipe-backward-in' : 'uk-slideshow-swipe-forward-in');
+                current.css('opacity', 0).removeClass(dir === -1 ? 'uk-slideshow-swipe-backward-out' : 'uk-slideshow-swipe-forward-out');
+                next.removeClass(dir === -1 ? 'uk-slideshow-swipe-backward-in' : 'uk-slideshow-swipe-forward-in');
                 d.resolve();
 
             }.bind(this));
 
-            current.addClass(dir == 1 ? 'uk-slideshow-swipe-backward-out' : 'uk-slideshow-swipe-forward-out');
-            next.addClass(dir == 1 ? 'uk-slideshow-swipe-backward-in' : 'uk-slideshow-swipe-forward-in');
+            current.addClass(dir == -1 ? 'uk-slideshow-swipe-backward-out' : 'uk-slideshow-swipe-forward-out');
+            next.addClass(dir == -1 ? 'uk-slideshow-swipe-backward-in' : 'uk-slideshow-swipe-forward-in');
             next.width(); // force redraw
 
             return d.promise();
@@ -480,8 +525,7 @@
 
             current.one(UI.support.animation.end, function() {
 
-                current.removeClass('uk-slideshow-scale-out');
-                next.css('opacity', '');
+                current.css('opacity', 0).removeClass('uk-slideshow-scale-out');
                 d.resolve();
 
             }.bind(this));
@@ -501,10 +545,17 @@
 
             next.css('opacity', 1);
 
+            // for plain text content slides - looks smoother
+            if (!(next.data('cover') || next.data('placeholder'))) {
+
+                next.css('opacity', 1).one(UI.support.animation.end, function() {
+                    next.removeClass('uk-slideshow-fade-in');
+                }).addClass('uk-slideshow-fade-in');
+            }
+
             current.one(UI.support.animation.end, function() {
 
-                current.removeClass('uk-slideshow-fade-out');
-                next.css('opacity', '');
+                current.css('opacity', 0).removeClass('uk-slideshow-fade-out');
                 d.resolve();
 
             }.bind(this));

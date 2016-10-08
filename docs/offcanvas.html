@@ -29,6 +29,8 @@
                     <li><a href="components.html">Components</a></li>
                     <li><a href="customizer.html">Customizer</a></li>
                     <li><a href="../showcase/index.html">Showcase</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="uikit3.html">UIkit 3</a></li>
                 </ul>
 
                 <a href="#tm-offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
@@ -84,6 +86,7 @@
                             <li><a href="thumbnail.html">Thumbnail</a></li>
                             <li><a href="overlay.html">Overlay</a></li>
                             <li><a href="text.html">Text</a></li>
+                            <li><a href="column.html">Column</a></li>
                             <li><a href="animation.html">Animation</a></li>
                             <li><a href="contrast.html">Contrast</a></li>
 
@@ -162,6 +165,28 @@
 &lt;div id="my-id" class="uk-offcanvas"&gt;
     &lt;div class="uk-offcanvas-bar"&gt;...&lt;/div&gt;
 &lt;/div&gt;</code></pre>
+
+
+                            <hr class="uk-article-divider">
+
+                            <h2 id="mode"><a href="#animation-modes" class="uk-link-reset">Animation Modes</a></h2>
+
+                            <p>You can choose between four different animation modes how the off-canvas bar should appear:</p>
+
+                            <h3 class="tm-article-subtitle">Example</h3>
+
+                            <a class="uk-button" href="#offcanvas-1" data-uk-offcanvas>Push (Default)</a>
+                            <a class="uk-button" href="#offcanvas-1" data-uk-offcanvas="mode:'slide'">Slide</a>
+                            <a class="uk-button" href="#offcanvas-1" data-uk-offcanvas="mode:'reveal'">Reveal</a>
+                            <a class="uk-button" href="#offcanvas-1" data-uk-offcanvas="mode:'none'">None</a>
+
+                            <h3 class="tm-article-subtitle">Markup</h3>
+
+<pre><code>&lt;a href="#my-id" data-uk-offcanvas="{mode:'slide'}"&gt;...&lt;/a&gt;
+
+&lt;a href="#my-id" data-uk-offcanvas="{mode:'reveal'}"&gt;...&lt;/a&gt;
+
+&lt;a href="#my-id" data-uk-offcanvas="{mode:'none'}"&gt;...&lt;/a&gt;</code></pre>
 
                             <hr class="uk-article-divider">
 
@@ -344,6 +369,34 @@ UIkit.offcanvas.show('#my-id');
 UIkit.offcanvas.hide([force = false])
 </code></pre>
 
+                        <hr class="uk-article-divider">
+
+                        <h2 id="javascript-options"><a href="#javascript-options" class="uk-link-reset">JavaScript options</a></h2>
+
+                        <p>This is an example of how to set options via attribute:</p>
+
+                        <pre><code>data-uk-offcanvas=&quot;{mode:'slide'}&quot;</code></pre>
+
+                        <div class="uk-overflow-container">
+                            <table class="uk-table uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Option</th>
+                                        <th>Possible value</th>
+                                        <th>Default</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>mode</code></td>
+                                        <td>'push', 'slide', 'reveal', 'none'</td>
+                                        <td>push</td>
+                                        <td>Offcanvas bar appear effect mode</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
                             <h3>Events</h3>
 
                             <div class="uk-overflow-container">
@@ -465,6 +518,7 @@ UIkit.offcanvas.hide([force = false])
                             <li><a href="thumbnail.html">Thumbnail</a></li>
                             <li><a href="overlay.html">Overlay</a></li>
                             <li><a href="text.html">Text</a></li>
+                            <li><a href="column.html">Column</a></li>
                             <li><a href="animation.html">Animation</a></li>
                             <li><a href="contrast.html">Contrast</a></li>
                         </ul>
@@ -484,6 +538,7 @@ UIkit.offcanvas.hide([force = false])
                     <li class="uk-parent"><a href="#"><i class="uk-icon-th-large"></i> Layout</a>
                         <ul class="uk-nav-sub">
                             <li><a href="grid-js.html">Dynamic Grid</a></li>
+                            <li><a href="grid-parallax.html">Parallax Grid</a></li>
                         </ul>
                     </li>
                     <li class="uk-parent"><a href="#"><i class="uk-icon-bars"></i> Navigations</a>
@@ -526,6 +581,8 @@ UIkit.offcanvas.hide([force = false])
                     </li>
                     <li class="uk-nav-divider"></li>
                     <li><a href="../showcase/index.html">Showcase</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="uikit3.html">UIkit 3</a></li>
                 </ul>
 
             </div>

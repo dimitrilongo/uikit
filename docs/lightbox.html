@@ -31,6 +31,8 @@
                     <li class="uk-active"><a href="components.html">Components</a></li>
                     <li><a href="customizer.html">Customizer</a></li>
                     <li><a href="../showcase/index.html">Showcase</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="uikit3.html">UIkit 3</a></li>
                 </ul>
 
                 <a href="#tm-offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
@@ -49,6 +51,7 @@
                         <ul class="tm-nav uk-nav" data-uk-nav>
                             <li class="uk-nav-header">Layout</li>
                             <li><a href="grid-js.html">Dynamic Grid</a></li>
+                            <li><a href="grid-parallax.html">Parallax Grid</a></li>
                             <li class="uk-nav-header">Navigations</li>
                             <li><a href="dotnav.html">Dotnav</a></li>
                             <li><a href="slidenav.html">Slidenav</a></li>
@@ -159,13 +162,14 @@
                                 <a class="uk-button" href="http://www.quirksmode.org/html5/videos/big_buck_bunny.mp4" data-uk-lightbox="{group:'group2'}">MP4</a>
                                 <a class="uk-button" href="http://vimeo.com/1084537" data-uk-lightbox="{group:'group2'}">Vimeo</a>
                                 <a class="uk-button" href="https://www.youtube.com/watch?v=YE7VzlLtp-4" data-uk-lightbox="{group:'group2'}">YouTube</a>
+                                <a class="uk-button" href="http://getuikit.com/docs/lightbox.html" data-uk-lightbox="{group:'group2'}">Iframe</a>
                             </p>
 
                             <hr class="uk-article-divider">
 
                             <h3 id="content-types"><a href="#different-content-sources" class="uk-link-reset">Content types</a></h3>
 
-                            <p>If no filename extension is defined in the image path, just add the <code>data-lightbox-type="image"</code> attribute. This works for videos as well.</p>
+                            <p>If no filename extension is defined in the image path, just add the <code>data-lightbox-type="image"</code> attribute. This works for videos as well. The iframe content type will be automatically detected for urls ending in <code>.html</code> or <code>.php</code>. To force the iframe, add the <code>data-lightbox-type="iframe"</code> attribute.</p>
 
                             <hr class="uk-article-divider">
 
@@ -187,6 +191,12 @@
                                             <td>string</td>
                                             <td>false</td>
                                             <td>Group name to group elements as a gallery to show</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>allowfullscreen</code></td>
+                                            <td>boolean</td>
+                                            <td>true</td>
+                                            <td>Whether embedded videos can toggle fullscreen or not (adds the <code>allowfullscreen</code> attribute to Iframes)</td>
                                         </tr>
                                         <tr>
                                             <td><code>duration</code></td>
@@ -335,6 +345,7 @@
                             <li><a href="thumbnail.html">Thumbnail</a></li>
                             <li><a href="overlay.html">Overlay</a></li>
                             <li><a href="text.html">Text</a></li>
+                            <li><a href="column.html">Column</a></li>
                             <li><a href="animation.html">Animation</a></li>
                             <li><a href="contrast.html">Contrast</a></li>
                         </ul>
@@ -354,6 +365,7 @@
                     <li class="uk-parent"><a href="#"><i class="uk-icon-th-large"></i> Layout</a>
                         <ul class="uk-nav-sub">
                             <li><a href="grid-js.html">Dynamic Grid</a></li>
+                            <li><a href="grid-parallax.html">Parallax Grid</a></li>
                         </ul>
                     </li>
                     <li class="uk-parent"><a href="#"><i class="uk-icon-bars"></i> Navigations</a>
@@ -396,6 +408,8 @@
                     </li>
                     <li class="uk-nav-divider"></li>
                     <li><a href="../showcase/index.html">Showcase</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="uikit3.html">UIkit 3</a></li>
                 </ul>
 
             </div>
